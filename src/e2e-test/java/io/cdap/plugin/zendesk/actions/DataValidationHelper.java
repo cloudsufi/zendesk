@@ -16,6 +16,7 @@
 
 package io.cdap.plugin.zendesk.actions;
 
+import io.cdap.e2e.utils.PluginPropertyUtils;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseBody;
@@ -26,7 +27,7 @@ import static io.restassured.RestAssured.given;
  * Zendesk utility - enhancements.
  */
 public class DataValidationHelper {
-  private static String baseURI = "https://cloudsufi.zendesk.com/api/v2";
+  private static String baseURI = PluginPropertyUtils.pluginProp("base.URI");
   public static String createGroup(String cred, String jsonBody) {
     Response response =  given()
       .header("authorization", cred)
@@ -47,4 +48,4 @@ public class DataValidationHelper {
       .header("authorization", cred)
       .delete(baseURI + "/groups/" + ZendeskPropertiesPageActions.uniqueId + ".json");
   }
-  }
+}

@@ -96,16 +96,14 @@ public class ZendeskPropertiesPageActions {
 
   public static void verifyIfRecordCreatedInSinkForSingleObjectIsCorrect()
     throws IOException, InterruptedException {
-      JsonObject expectedOutputAsJson = gson.fromJson(TestSetupHooks.testdata_Group, JsonObject.class);
+      JsonObject expectedOutputAsJson = gson.fromJson(TestSetupHooks.groupResponse, JsonObject.class);
       JsonObject group = (JsonObject) expectedOutputAsJson.get("group");
-      System.out.println(group);
       uniqueId = group.get("id").getAsBigInteger();
       getBigQueryTableData(PluginPropertyUtils.pluginProp("dataset"),
                            PluginPropertyUtils.pluginProp("bqtarget.table"), uniqueId);
       Assert.assertTrue(ZendeskPropertiesPageActions.compareValueOfBothResponses(group.toString(),
                                                                                  bigQueryrows.get(0)));
-    }
-
+  }
 
   public static void verifyIfRecordCreatedInSinkForMultipleObjectsAreCorrect(String expectedOutputFile)
           throws IOException, InterruptedException {
@@ -116,12 +114,10 @@ public class ZendeskPropertiesPageActions {
         expectedOutput.add(line);
       }
     }
-
     List<String> bigQueryDatasetTables = new ArrayList<>();
     TableResult tablesSchema = ZendeskPropertiesPageActions.getTableNamesFromDataSet
             (PluginPropertyUtils.pluginProp("dataset"));
     tablesSchema.iterateAll().forEach(value -> bigQueryDatasetTables.add(value.get(0).getValue().toString()));
-    System.out.println(bigQueryDatasetTables.size());
 
     for (int expectedRow = 0; expectedRow < expectedOutput.size(); expectedRow++) {
       JsonObject expectedOutputAsJson = gson.fromJson(expectedOutput.get(expectedRow), JsonObject.class);
@@ -133,7 +129,7 @@ public class ZendeskPropertiesPageActions {
       Assert.assertTrue(ZendeskPropertiesPageActions.compareValueOfBothResponses(expectedOutput.get(row),
               bigQueryrows.get(row)));
     }
-    }
+  }
 
 
   static boolean compareValueOfBothResponses(String zendeskResponse, String bigQueryResponse) {

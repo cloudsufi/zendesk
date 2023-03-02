@@ -33,8 +33,8 @@ import java.util.Base64;
  * Represents Test Setup and Clean up hooks.
  */
 public class TestSetupHooks {
-  public static String testdata_Group = "";
-  public static String cred = "";
+  public static String groupResponse = "";
+  public static String credentials = "";
 
 
   @Before(order = 1, value = "@CREATE_GROUP")
@@ -44,9 +44,9 @@ public class TestSetupHooks {
     String password = System.getenv("ZENDESK_PASSWORD");
     String auth = email + ":" + password;
     String encodedAuth = encoder.encodeToString(auth.getBytes());
-    cred = "Basic " + encodedAuth;
+    credentials = "Basic " + encodedAuth;
     String jsonBody = "{\"group\": {\"name\": \"My Group" + RandomStringUtils.randomAlphanumeric(10) + "\"}}";
-    testdata_Group = DataValidationHelper.createGroup(cred, jsonBody);
+    groupResponse = DataValidationHelper.createGroup(credentials, jsonBody);
   }
 
   @Before(order = 1, value = "@BQ_SINK")
@@ -95,6 +95,6 @@ public class TestSetupHooks {
   }
   @After(order = 2, value = "@DELETE_GROUP")
   public void deleteGroup() {
-       DataValidationHelper.deleteGroup(cred);
+       DataValidationHelper.deleteGroup(credentials);
   }
-  }
+}

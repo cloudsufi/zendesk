@@ -17,7 +17,7 @@
 @Regression
 Feature: Zendesk Source - Run time scenarios
 
-  @TS-ZD-RNTM-MACRO-01 @BQ_SINK @BQ_SINK_CLEANUP @TEST_DATA @DELETE_TEST_DATA
+  @TS-ZD-RNTM-MACRO-01 @BQ_SINK @BQ_SINK_CLEANUP @CREATE_GROUP @DELETE_GROUP
   Scenario: Verify user should be able to preview and deploy the pipeline when plugin is configured for a Non hierarchical Object with macros
     When Open Datafusion Project to configure pipeline
     And Select plugin: "Zendesk" from the plugins list as: "Source"
@@ -71,7 +71,7 @@ Feature: Zendesk Source - Run time scenarios
     And Close the pipeline logs
     Then Validate record created in Sink application for Single object is equal to expected output file
 
-  @TS-ZD-RNTM-MACRO-02 @BQ_SINK @BQ_SINK_CLEANUP @TEST_DATA @DELETE_TEST_DATA
+  @TS-ZD-RNTM-MACRO-02 @BQ_SINK @BQ_SINK_CLEANUP @CREATE_GROUP @DELETE_GROUP
   Scenario: Verify user should be able to preview and deploy the pipeline when plugin is configured for Advanced Properties with macros
     When Open Datafusion Project to configure pipeline
     And Select plugin: "Zendesk" from the plugins list as: "Source"
